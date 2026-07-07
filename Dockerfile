@@ -3,8 +3,11 @@ FROM golang:1.22-alpine AS builder
 
 WORKDIR /app
 
-# Copy module files first so Docker can cache the dependency layer
+# Copy module files first
 COPY go.mod go.sum ./
+
+# Force Go modules on and download
+ENV GO111MODULE=on
 RUN go mod download
 
 # Copy the rest of the source
